@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>貯金アプリ</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+<h1>💰 貯金目標</h1>
+
+<div>
+  <input id="title" placeholder="目標タイトル">
+  <input id="goal" placeholder="目標金額">
+  <input id="saved" placeholder="現在の貯金額">
+
+  <button class="add-goal-btn" onclick="addGoal()">追加</button>
+</div>
+
+
+<h2>目標一覧</h2>
+
+<div id="goalList"></div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
