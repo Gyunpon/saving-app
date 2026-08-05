@@ -14,8 +14,9 @@ function addGoal() {
 
   const div = document.createElement("div");
   div.innerHTML = `
-    <h3>${title}</h3>
-    <p>${saved} / ${goal}</p>
+    <p>目標：${goal.toLocaleString()}円</p>
+    <p>現在：${saved.toLocaleString()}円</p>
+    <p>達成率：${Math.floor(saved / goal * 100)}%</p>
   `;
 
   document.getElementById("goalList").appendChild(div);
