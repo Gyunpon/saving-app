@@ -5,21 +5,23 @@ let goals = JSON.parse(localStorage.getItem("goals")) || [];
 function addGoal() {
   const title = document.getElementById("title").value.trim();
   const goal = Number(document.getElementById("goal").value);
-  const saved = Number(document.getElementById("saved").value);
 
-  if (!title || isNaN(goal) || isNaN(saved)) {
+  if (!title || isNaN(goal)) {
     alert("正しく入力してください！");
     return;
   }
 
-  const div = document.createElement("div");
-  div.innerHTML = `
-    <p>目標：${goal.toLocaleString()}円</p>
-    <p>現在：${saved.toLocaleString()}円</p>
-    <p>達成率：${Math.floor(saved / goal * 100)}%</p>
-  `;
+  const goals = JSON.parse(localStorage.getItem("goals")) || [];
 
-  document.getElementById("goalList").appendChild(div);
+  goals.push({
+    title: title,
+    goal: goal,
+    history: [] // ←ここ重要
+  });
+
+  localStorage.setItem("goals", JSON.stringify(goals));
+
+  displayGoals(); // ←これだけで表示更新
 }
 
 
@@ -68,7 +70,7 @@ function displayGoals(){
  const percent =
  Math.floor(total / item.goal * 100);
 
- 
+
 const history = item.history || [];
 
 
