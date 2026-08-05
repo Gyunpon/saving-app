@@ -2,32 +2,23 @@ let goals = JSON.parse(localStorage.getItem("goals")) || [];
 
 
 // 目標追加
-function addGoal(){
+function addGoal() {
+  const title = document.getElementById("title").value.trim();
+  const goal = Number(document.getElementById("goal").value);
+  const saved = Number(document.getElementById("saved").value);
 
-  const title =
-  document.getElementById("title").value;
+  if (!title || isNaN(goal) || isNaN(saved)) {
+    alert("正しく入力してください！");
+    return;
+  }
 
-  const goal =
-  Number(document.getElementById("goal").value);
+  const div = document.createElement("div");
+  div.innerHTML = `
+    <h3>${title}</h3>
+    <p>${saved} / ${goal}</p>
+  `;
 
-
-  const newGoal = {
-
-    title:title,
-
-    goal:goal,
-
-    history:[]
-
-  };
-
-
-  goals.push(newGoal);
-
-  saveGoals();
-
-  displayGoals();
-
+  document.getElementById("goalList").appendChild(div);
 }
 
 
