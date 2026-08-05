@@ -6,6 +6,7 @@
   <title>貯金アプリ</title>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 
 <body>
@@ -20,12 +21,12 @@
   <button class="add-goal-btn" onclick="addGoal()">追加</button>
 </div>
 
+
 <div class="backup-buttons">
   <button class="backup-btn" onclick="exportGoals()">📤 バックアップを保存</button>
   <button class="backup-btn" onclick="document.getElementById('importFile').click()">📥 バックアップを読み込む</button>
   <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importGoals(event)">
 </div>
-
 
 <h2>目標一覧</h2>
 
