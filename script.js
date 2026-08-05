@@ -68,6 +68,8 @@ function displayGoals(){
  const percent =
  Math.floor(total / item.goal * 100);
 
+ 
+const history = item.history || [];
 
 
  list.innerHTML += `
