@@ -5,23 +5,35 @@ let goals = JSON.parse(localStorage.getItem("goals")) || [];
 function addGoal() {
   const title = document.getElementById("title").value.trim();
   const goal = Number(document.getElementById("goal").value);
+  const saved = Number(document.getElementById("saved").value) || 0;
 
   if (!title || isNaN(goal)) {
     alert("正しく入力してください！");
     return;
   }
 
-  const goals = JSON.parse(localStorage.getItem("goals")) || [];
+  const history = [];
+  if (saved > 0) {
+    history.push({
+      date: new Date().toLocaleDateString("ja-JP"),
+      amount: saved
+    });
+  }
 
   goals.push({
     title: title,
     goal: goal,
-    history: [] // ←ここ重要
+    history: history
   });
 
-  localStorage.setItem("goals", JSON.stringify(goals));
+  saveGoals();
 
-  displayGoals(); // ←これだけで表示更新
+  displayGoals();
+
+  // 入力欄をリセット
+  document.getElementById("title").value = "";
+  document.getElementById("goal").value = "";
+  document.getElementById("saved").value = "";
 }
 
 
@@ -61,6 +73,9 @@ function displayGoals(){
 
 
  goals.forEach((item,index)=>{
+
+ // ↓この1行を追加
+ item.history = item.history || [];
 
 
  const total =
