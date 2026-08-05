@@ -102,6 +102,24 @@ button[onclick^="addMoney"] {
 }
 
 
+/* バックアップボタン */
+
+.backup-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.backup-btn {
+  flex: 1;
+  height: 44px;
+  font-size: 13px;
+  background: white;
+  color: #ff6f91;
+  border: 1px solid #ffd1dc;
+}
+
+
 /* カード */
 
 #goalList > div {

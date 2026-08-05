@@ -7,8 +7,13 @@ function addGoal() {
   const goal = Number(document.getElementById("goal").value);
   const saved = Number(document.getElementById("saved").value) || 0;
 
-  if (!title || isNaN(goal)) {
-    alert("正しく入力してください！");
+  if (!title || isNaN(goal) || goal <= 0) {
+    alert("正しく入力してください！(目標金額は1円以上にしてください)");
+    return;
+  }
+
+  if (saved < 0) {
+    alert("現在の貯金額はマイナスにできません！");
     return;
   }
 
@@ -226,9 +231,16 @@ function editItem(index){
 
  if(title && goal){
 
+ const goalNum = Number(goal);
+
+ if (isNaN(goalNum) || goalNum <= 0) {
+   alert("目標金額は1円以上の数字にしてください！");
+   return;
+ }
+
  goals[index].title=title;
 
- goals[index].goal=Number(goal);
+ goals[index].goal=goalNum;
 
 
  saveGoals();
@@ -265,6 +277,81 @@ function deleteItem(index){
 
 
 displayGoals();
+
+
+// バックアップの書き出し(JSONファイルとしてダウンロード)
+function exportGoals(){
+
+  const dataStr = JSON.stringify(goals, null, 2);
+  const blob = new Blob([dataStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `貯金アプリ_バックアップ_${today}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
+}
+
+
+// バックアップの読み込み(JSONファイルから復元)
+function importGoals(event){
+
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+
+    try {
+      const imported = JSON.parse(e.target.result);
+
+      if (!Array.isArray(imported)) {
+        throw new Error("不正な形式です");
+      }
+
+      const doOverwrite = confirm(
+        "現在のデータに追加しますか？\n" +
+        "「OK」で追加、「キャンセル」で今のデータを置き換えます。"
+      );
+
+      // history未定義のデータでも壊れないようにする
+      imported.forEach(item => {
+        item.history = item.history || [];
+      });
+
+      if (doOverwrite) {
+        goals = goals.concat(imported);
+      } else {
+        goals = imported;
+      }
+
+      saveGoals();
+      displayGoals();
+
+      alert("バックアップを読み込みました！");
+
+    } catch (err) {
+      alert("読み込みに失敗しました。正しいバックアップファイルか確認してください。");
+    }
+
+    // 同じファイルを連続で選んでもonchangeが発火するようリセット
+    event.target.value = "";
+  };
+
+  reader.readAsText(file);
+}
+
+
+
+
+
 
 
 function editHistory(goalIndex, historyIndex){
